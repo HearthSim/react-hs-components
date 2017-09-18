@@ -1,0 +1,33 @@
+{
+  "name": "react-hs-components",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/HearthSim/react-hs-components",
+  "bugs": {
+    "url": "https://github.com/HearthSim/react-hs-components/issues"
+  },
+  "license": "UNLICENSED",
+  "author": "Benedict Etzel <benedict@hearthsim.net>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HearthSim/react-hs-components.git"
+  },
+  "scripts": {
+    "dev": "rollup -c --watch",
+    "build": "rollup -c",
+    "format": "prettier --write \"{src/**/*.ts{,x},*.js}\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^16.0.5",
+    "prettier": "^1.7.0",
+    "rollup": "^0.50.0",
+    "rollup-plugin-typescript2": "^0.5.2",
+    "typescript": "^2.5.2"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0-rc.3"
+  },
+  "private": true
+}
