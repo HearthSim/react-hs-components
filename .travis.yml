@@ -1,0 +1,13 @@
+language: node_js
+cache: yarn
+node_js:
+  - "8"
+jobs:
+  include:
+    - stage: build
+      script: yarn build
+    - stage: lint
+      script: yarn lint
+install:
+  - npm install -g yarn
+  - yarn --pure-lockfile

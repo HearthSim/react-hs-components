@@ -16,7 +16,8 @@
   "scripts": {
     "dev": "rollup -c --watch",
     "build": "rollup -c",
-    "format": "prettier --write \"{src/**/*.ts{,x},*.js}\""
+    "format": "prettier --write \"{src/**/*.ts{,x},*.js}\"",
+    "lint": "prettier --list-different \"{src/**/*.ts{,x},*.js}\""
   },
   "dependencies": {},
   "devDependencies": {
