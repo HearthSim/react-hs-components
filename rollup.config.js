@@ -7,7 +7,7 @@ export default {
 		file: "./dist/index.js",
 	},
 	exports: "named",
-	external: ["react"],
+	external: ["react", "styled-components"],
 	plugins: [
 		typescript({
 			typescript: require("typescript"),
