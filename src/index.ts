@@ -1,4 +1,4 @@
-import SkeletonImage from "./components/SkeletonImage";
 import Card from "./components/Card";
+import SkeletonImage from "./components/SkeletonImage";
 
-export { SkeletonImage, Card };
+export { Card, SkeletonImage };
