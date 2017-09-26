@@ -6,6 +6,7 @@ export default {
 		format: "es",
 		file: "./dist/index.js",
 	},
+	exports: "named",
 	external: ["react"],
 	plugins: [
 		typescript({
