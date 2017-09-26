@@ -8,6 +8,18 @@ jobs:
       script: yarn build
     - stage: lint
       script: yarn lint
+    - stage: deploy
+      if: branch = master AND type = push
+      node_js: 8
+      install:
+        - npm install -g yarn
+        - yarn --pure-lockfile
+        - pip install --user awscli
+      script:
+        - yarn run build
+        - yarn pack
+        - PACKAGE=`find . -maxdepth 1 -name "*.tgz"`
+        - aws s3 cp $PACKAGE s3://$S3_DEFAULT_BUCKET/
 install:
   - npm install -g yarn
   - yarn --pure-lockfile
