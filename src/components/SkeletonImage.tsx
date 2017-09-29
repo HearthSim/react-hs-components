@@ -21,8 +21,14 @@ export default class SkeletonImage extends React.Component<
 > {
 	constructor(props: SkeletonImageProps, context: any) {
 		super(props, context);
+
+		// check whether image is in cache
+		const img: HTMLImageElement | null = new Image();
+		img.src = this.props.src;
+		const inCache = img.complete;
+
 		this.state = {
-			loaded: false,
+			loaded: inCache,
 		};
 	}
 
