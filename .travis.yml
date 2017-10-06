@@ -9,7 +9,7 @@ jobs:
     - stage: lint
       script: yarn lint
     - stage: deploy
-      if: branch = master AND type = push
+      if: branch = master AND tag =~ ^v\d AND type = push
       node_js: 8
       install:
         - npm install -g yarn
