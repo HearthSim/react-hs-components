@@ -5,6 +5,7 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	id: string;
 	name: string;
 	cost: number;
+	icon?: string;
 	rarity?: string;
 	disabled?: boolean;
 	number?: number;
@@ -51,6 +52,13 @@ const CardTileNameBase = CardTileTextElement.extend`
 	background-position: right center;
 	background-size: contain;
 	background-repeat: no-repeat;
+
+	// icon
+	img {
+		float: right;
+		height: 100%;
+		margin-left: 6px;
+	}
 `;
 
 const CardTileName = CardTileNameBase.extend`
@@ -109,7 +117,10 @@ const CardTileCounter = (CardTileTextElement as any).extend`
 export default class CardTile extends React.Component<CardTileProps, {}> {
 	renderName() {
 		return (
-			<CardTileName cardId={this.props.id}>{this.props.name}</CardTileName>
+			<CardTileName cardId={this.props.id}>
+				{this.props.icon ? <img src={this.props.icon} /> : null}
+				{this.props.name}
+			</CardTileName>
 		);
 	}
 
