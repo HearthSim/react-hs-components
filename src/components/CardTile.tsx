@@ -35,7 +35,7 @@ const CardTileTextElement = styled.div`
 
 const CardTileNameBase = CardTileTextElement.extend`
 	// text
-	font-size: 0.9em;
+	font-size: 0.8em;
 	text-align: left;
 	text-overflow: ellipsis;
 	white-space: nowrap;
