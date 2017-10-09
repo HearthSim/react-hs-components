@@ -12,12 +12,13 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	href?: string;
 }
 
-const CardTileWrapper = styled.div`
+const CardTileWrapper = (styled.div as any)`
 	display: flex;
 	width: 100%;
 	background-color: gray;
 	border: solid 1px black;
-	filter: ${props => (props.disabled ? `brightness(50%)` : "brightness(100%)")};
+	filter: ${(props: any) =>
+		props.disabled ? `brightness(50%)` : "brightness(100%)"};
 	vertical-align: middle;
 `;
 
