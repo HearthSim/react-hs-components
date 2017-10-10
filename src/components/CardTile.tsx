@@ -46,7 +46,7 @@ const CardTileNameBase = CardTileTextElement.extend`
 
 	// layout
 	height: 34px;
-	line-height: 38px;
+	line-height: 34px;
 	padding: 0 6px;
 	flex: 1 0 0;
 	overflow: hidden;
@@ -82,7 +82,7 @@ const CardTileGem = CardTileTextElement.extend`
 	flex: 0 0 auto;
 	height: 34px;
 	width: 34px;
-	line-height: 38px;
+	line-height: 34px;
 	text-align: center;
 	float: left;
 	position: relative;
@@ -112,7 +112,7 @@ const CardTileCounter = (CardTileTextElement as any).extend`
 	color: gold;
 	text-align: center;
 	height: 34px;
-	line-height: 38px;
+	line-height: 34px;
 	width: 24px;
 	background-color: #313131;
 	border-left: solid 1px black;
