@@ -10,6 +10,8 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	disabled?: boolean;
 	number?: number;
 	href?: string;
+	fontFamily?: string;
+	fontWeight?: string;
 }
 
 const CardTileWrapper = (styled.div as any)`
@@ -20,16 +22,17 @@ const CardTileWrapper = (styled.div as any)`
 	filter: ${(props: any) =>
 		props.disabled ? `brightness(50%)` : "brightness(100%)"};
 	vertical-align: middle;
+	font-family: ${(props: any) =>
+		props.fontFamily ? props.fontFamily : "sans-serif"};
+	font-weight: ${(props: any) => (props.fontWeight ? props.fontWeight : "bold")};
 `;
 
 const CardTileWrapperLink = CardTileWrapper.withComponent("a").extend`
 
 `;
 
-const CardTileTextElement = styled.div`
+const CardTileTextElement = (styled.div as any)`
 	color: white;
-	font-family: "Chunkfive", sans-serif;
-	font-weight: normal;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 		1px 1px 0 #000;
 `;
@@ -144,6 +147,8 @@ export default class CardTile extends React.Component<CardTileProps, {}> {
 			<Wrapper
 				href={this.props.href ? "" : undefined}
 				disabled={this.props.disabled}
+				fontFamily={this.props.fontFamily}
+				fontWeight={this.props.fontWeight}
 			>
 				<CardTileGem rarity={this.props.rarity}>{this.props.cost}</CardTileGem>
 				{this.renderName()}
