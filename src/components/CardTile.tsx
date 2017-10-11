@@ -9,6 +9,7 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	rarity?: string;
 	disabled?: boolean;
 	number?: number;
+	showRarity?: boolean;
 	href?: string;
 	fontFamily?: string;
 	fontWeight?: string;
@@ -150,7 +151,11 @@ export default class CardTile extends React.Component<CardTileProps, {}> {
 				fontFamily={this.props.fontFamily}
 				fontWeight={this.props.fontWeight}
 			>
-				<CardTileGem rarity={this.props.rarity}>{this.props.cost}</CardTileGem>
+				<CardTileGem
+					rarity={this.props.showRarity ? this.props.rarity : undefined}
+				>
+					{this.props.cost}
+				</CardTileGem>
 				{this.renderName()}
 				{this.renderCount()}
 			</Wrapper>
