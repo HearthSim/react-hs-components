@@ -1,6 +1,6 @@
 {
   "name": "react-hs-components",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/HearthSim/react-hs-components",
