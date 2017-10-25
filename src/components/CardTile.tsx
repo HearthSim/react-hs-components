@@ -17,15 +17,21 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 
 const CardTileWrapper = (styled.div as any)`
 	display: flex;
+	overflow: hidden;
+	position: relative;
 	width: 100%;
 	background-color: gray;
 	border: solid 1px black;
-	filter: ${(props: any) =>
-		props.disabled ? `brightness(50%)` : "brightness(100%)"};
 	vertical-align: middle;
 	font-family: ${(props: any) =>
 		props.fontFamily ? props.fontFamily : "sans-serif"};
 	font-weight: ${(props: any) => (props.fontWeight ? props.fontWeight : "bold")};
+`;
+
+const Darkness = (styled.div as any)`
+	display: inherit;
+	width: 100%;
+	filter: brightness(${(props: any) => (props.disabled ? 50 : 100)}%);
 `;
 
 const CardTileWrapperLink = CardTileWrapper.withComponent("a").extend`
@@ -147,17 +153,18 @@ export default class CardTile extends React.Component<CardTileProps, {}> {
 		return (
 			<Wrapper
 				href={this.props.href ? "" : undefined}
-				disabled={this.props.disabled}
 				fontFamily={this.props.fontFamily}
 				fontWeight={this.props.fontWeight}
 			>
-				<CardTileGem
-					rarity={this.props.showRarity ? this.props.rarity : undefined}
-				>
-					{this.props.cost}
-				</CardTileGem>
-				{this.renderName()}
-				{this.renderCount()}
+				<Darkness disabled={this.props.disabled}>
+					<CardTileGem
+						rarity={this.props.showRarity ? this.props.rarity : undefined}
+					>
+						{this.props.cost}
+					</CardTileGem>
+					{this.renderName()}
+					{this.renderCount()}
+				</Darkness>
 			</Wrapper>
 		);
 	}
