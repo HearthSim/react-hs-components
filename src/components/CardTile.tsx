@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { injectGlobal } from "styled-components";
 
 export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	id: string;
@@ -8,6 +8,7 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	icon?: string;
 	rarity?: string;
 	disabled?: boolean;
+	animated?: boolean;
 	number?: number;
 	showRarity?: boolean;
 	href?: string;
@@ -42,6 +43,38 @@ const CardTileTextElement = (styled.div as any)`
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 		1px 1px 0 #000;
+`;
+
+// for some reason styled-components.keyframes breaks the export
+injectGlobal`
+	@keyframes react-hs-components-fade {
+		0% {
+			opacity: 0;
+		}
+
+		50% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+`;
+
+const FlashOverlay = (styled.div as any)`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 254, 179, 0.4);
+	opacity: 0;
+	transition: opacity;
+	animation: react-hs-components-fade 1s linear;
+
+	z-index: 1;
+	overflow: hidden;
 `;
 
 const CardTileNameBase = CardTileTextElement.extend`
@@ -125,7 +158,34 @@ const CardTileCounter = (CardTileTextElement as any).extend`
 	border-left: solid 1px black;
 `;
 
-export default class CardTile extends React.Component<CardTileProps, {}> {
+export interface CardTileState {
+	flashIndex: number;
+}
+
+export default class CardTile extends React.Component<
+	CardTileProps,
+	CardTileState
+> {
+	constructor(props: CardTileProps, context: any) {
+		super(props, context);
+		this.state = {
+			flashIndex: 0,
+		};
+	}
+
+	componentDidUpdate(
+		prevProps: Readonly<CardTileProps>,
+		prevState: Readonly<CardTileState>,
+		prevContext: any,
+	): void {
+		if (
+			prevProps.number !== this.props.number ||
+			prevProps.disabled !== this.props.disabled
+		) {
+			this.setState(state => ({ flashIndex: (state.flashIndex + 1) % 100 }));
+		}
+	}
+
 	renderName() {
 		return (
 			<CardTileName cardId={this.props.id}>
@@ -156,6 +216,9 @@ export default class CardTile extends React.Component<CardTileProps, {}> {
 				fontFamily={this.props.fontFamily}
 				fontWeight={this.props.fontWeight}
 			>
+				{this.props.animated ? (
+					<FlashOverlay key={this.state.flashIndex} />
+				) : null}
 				<Darkness disabled={this.props.disabled}>
 					<CardTileGem
 						rarity={this.props.showRarity ? this.props.rarity : undefined}
