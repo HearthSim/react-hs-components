@@ -106,7 +106,7 @@ const CardTileNameBase = CardTileTextElement.extend`
 `;
 
 const CardTileName = CardTileNameBase.extend`
-	background: linear-gradient(
+	background-image: linear-gradient(
 			65deg,
 			#313109,
 			#313131 calc(100% - 96px),
@@ -116,7 +116,7 @@ const CardTileName = CardTileNameBase.extend`
 		${(props: React.HTMLProps<HTMLDivElement> & { cardId: string | null }) =>
 			props.cardId !== null
 				? `url("https://art.hearthstonejson.com/v1/tiles/${props.cardId}.png")`
-				: "rgba(255, 255, 255, 0.3)"};
+				: "linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3))"};
 `;
 
 const CardTileGem = CardTileTextElement.extend`
