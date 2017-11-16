@@ -2,9 +2,9 @@ import * as React from "react";
 import styled, { injectGlobal } from "styled-components";
 
 export interface CardTileProps extends React.ClassAttributes<CardTile> {
-	id: string;
-	name: string;
-	cost: number;
+	id: string | null;
+	name: string | null;
+	cost: number | null;
 	icon?: string;
 	rarity?: string;
 	disabled?: boolean;
@@ -106,15 +106,17 @@ const CardTileNameBase = CardTileTextElement.extend`
 `;
 
 const CardTileName = CardTileNameBase.extend`
-	background-image: linear-gradient(
+	background: linear-gradient(
 			65deg,
 			#313109,
 			#313131 calc(100% - 96px),
 			rgba(49, 49, 49, 0) calc(100% - 26px),
 			rgba(49, 49, 49, 0)
 		),
-		${(props: React.HTMLProps<HTMLDivElement> & { cardId: string }) =>
-			`url("https://art.hearthstonejson.com/v1/tiles/${props.cardId}.png")`};
+		${(props: React.HTMLProps<HTMLDivElement> & { cardId: string | null }) =>
+			props.cardId !== null
+				? `url("https://art.hearthstonejson.com/v1/tiles/${props.cardId}.png")`
+				: "rgba(255, 255, 255, 0.3)"};
 `;
 
 const CardTileGem = CardTileTextElement.extend`
@@ -158,8 +160,18 @@ const CardTileCounter = (CardTileTextElement as any).extend`
 	border-left: solid 1px black;
 `;
 
+const SkeletonLine = (styled.span as any)`
+	display: inline-block;
+	background-color: rgba(255, 255, 255, 0.3);
+	border-radius: 1em;
+	height: 0.75em;
+	width: ${(props: React.HTMLProps<HTMLSpanElement> & { width?: string }) =>
+		props.width || 0};
+`;
+
 export interface CardTileState {
 	flashIndex: number;
+	skeletonNameWidth?: string;
 }
 
 export default class CardTile extends React.Component<
@@ -170,6 +182,7 @@ export default class CardTile extends React.Component<
 		super(props, context);
 		this.state = {
 			flashIndex: 0,
+			skeletonNameWidth: `${35 + Math.round(Math.random() * 35)}%`,
 		};
 	}
 
@@ -190,7 +203,11 @@ export default class CardTile extends React.Component<
 		return (
 			<CardTileName cardId={this.props.id}>
 				{this.props.icon ? <img src={this.props.icon} /> : null}
-				{this.props.name}
+				{this.props.name !== null ? (
+					this.props.name
+				) : (
+					<SkeletonLine width={this.state.skeletonNameWidth} />
+				)}
 			</CardTileName>
 		);
 	}
@@ -223,7 +240,11 @@ export default class CardTile extends React.Component<
 					<CardTileGem
 						rarity={this.props.showRarity ? this.props.rarity : undefined}
 					>
-						{this.props.cost}
+						{this.props.cost !== null ? (
+							this.props.cost
+						) : (
+							<SkeletonLine width={"0.75em"} />
+						)}
 					</CardTileGem>
 					{this.renderName()}
 					{this.renderCount()}
