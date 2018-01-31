@@ -29,5 +29,6 @@
     "styled-components": "^2.1.2",
     "typescript": "^2.5.2"
   },
-  "private": true
+  "private": true,
+  "sideEffects": false
 }
