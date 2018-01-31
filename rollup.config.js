@@ -5,8 +5,8 @@ export default {
 	output: {
 		format: "es",
 		file: "./dist/index.js",
+		exports: "named",
 	},
-	exports: "named",
 	external: ["react", "styled-components"],
 	plugins: [
 		typescript({
