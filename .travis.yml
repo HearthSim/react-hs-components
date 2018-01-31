@@ -2,14 +2,17 @@ language: node_js
 cache: yarn
 node_js:
   - "8"
+env:
+  - SCRIPT=build
+  - SCRIPT=lint
+script: yarn run $SCRIPT
+stages:
+  - name: test
+  - name: deploy
+    if: tag =~ ^v\d AND type = push
 jobs:
   include:
-    - stage: build
-      script: yarn build
-    - stage: lint
-      script: yarn lint
     - stage: deploy
-      if: tag =~ ^v\d AND type = push
       node_js: 8
       install:
         - npm install -g yarn
@@ -20,6 +23,7 @@ jobs:
         - yarn pack
         - PACKAGE=`find . -maxdepth 1 -name "*.tgz"`
         - aws s3 cp $PACKAGE s3://$S3_DEFAULT_BUCKET/
+      env: ""
 install:
   - npm install -g yarn
   - yarn --pure-lockfile
