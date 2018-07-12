@@ -21,13 +21,36 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
+		"@types/jest": "^23.1.5",
 		"@types/react": "^16.0.7",
+		"jest": "^23.4.0",
 		"prettier": "^1.7.0",
 		"react": "^16.0.0",
+		"react-test-renderer": "^16.4.1",
 		"rollup": "^0.55.1",
 		"rollup-plugin-typescript2": "^0.10.0",
 		"styled-components": "^3.1.4",
+		"ts-jest": "^23.0.0",
 		"typescript": "^2.5.2"
+	},
+	"jest": {
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js"
+		],
+		"transform": {
+			"^.+\\.(ts|tsx)$": "ts-jest"
+		},
+		"globals": {
+			"ts-jest": {
+				"skipBabel": true,
+				"useExperimentalLanguageServer": true
+			}
+		},
+		"testMatch": [
+			"**/__tests__/*.+(ts|tsx|js)"
+		]
 	},
 	"private": true,
 	"sideEffects": false
