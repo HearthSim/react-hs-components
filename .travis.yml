@@ -10,8 +10,17 @@ stages:
   - name: test
   - name: deploy
     if: tag =~ ^v\d AND type = push
+
 jobs:
   include:
+    - stage: test
+      language: node_js
+      node_js: "node"
+      env: SCRIPT=jest
+      install:
+        - yarn --pure-lockfile
+      script: yarn run $SCRIPT
+
     - stage: deploy
       node_js: 8
       install:
@@ -24,6 +33,7 @@ jobs:
         - PACKAGE=`find . -maxdepth 1 -name "*.tgz"`
         - aws s3 cp $PACKAGE s3://$S3_DEFAULT_BUCKET/
       env: ""
+
 install:
   - npm install -g yarn
   - yarn --pure-lockfile
