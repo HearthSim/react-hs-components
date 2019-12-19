@@ -15,7 +15,8 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	fontFamily?: string;
 	fontWeight?: string;
 	battlegrounds?: boolean;
-	tier?: number | null;
+	tier?: number;
+	premium?: boolean;
 }
 
 const CardTileWrapper = (styled.div as any)`
@@ -119,6 +120,9 @@ const CardTileName = CardTileNameBase.extend`
 			props.cardId !== null
 				? `url("https://art.hearthstonejson.com/v1/tiles/${props.cardId}.png")`
 				: "linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3))"};
+
+	${(props: React.HTMLProps<HTMLDivElement> & { premium?: boolean | null }) =>
+		!!props.premium ? "color: gold" : ""};
 `;
 
 const CardTileGem = CardTileTextElement.extend`
@@ -211,7 +215,7 @@ export default class CardTile extends React.Component<
 
 	renderName() {
 		return (
-			<CardTileName cardId={this.props.id}>
+			<CardTileName cardId={this.props.id} premium={!!this.props.premium}>
 				{this.props.icon ? <img src={this.props.icon} /> : null}
 				{this.props.name !== null ? (
 					this.props.name
