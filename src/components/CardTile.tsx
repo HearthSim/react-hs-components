@@ -14,6 +14,8 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	href?: string;
 	fontFamily?: string;
 	fontWeight?: string;
+	battlegrounds?: boolean;
+	tier?: number | null;
 }
 
 const CardTileWrapper = (styled.div as any)`
@@ -148,6 +150,14 @@ const CardTileGem = CardTileTextElement.extend`
 	border-right: solid 1px black;
 `;
 
+const CardTileTier = styled.img`
+	height: 34px;
+	width: 34px;
+	float: left;
+	position: relative;
+	border-right: solid 1px black;
+`;
+
 const CardTileCounter = (CardTileTextElement as any).extend`
 	flex: 0 0 auto;
 	font-size: 1.2em;
@@ -237,15 +247,23 @@ export default class CardTile extends React.Component<
 					<FlashOverlay key={this.state.flashIndex} />
 				) : null}
 				<Darkness disabled={this.props.disabled}>
-					<CardTileGem
-						rarity={this.props.showRarity ? this.props.rarity : undefined}
-					>
-						{this.props.cost !== null ? (
-							this.props.cost
-						) : (
-							<SkeletonLine width={"0.75em"} />
-						)}
-					</CardTileGem>
+					{!!this.props.battlegrounds && !!this.props.tier ? (
+						<CardTileTier
+							src={`https://art.hearthstonejson.com/v1/tiers/${
+								this.props.tier
+							}.png`}
+						/>
+					) : (
+						<CardTileGem
+							rarity={this.props.showRarity ? this.props.rarity : undefined}
+						>
+							{this.props.cost !== null ? (
+								this.props.cost
+							) : (
+								<SkeletonLine width={"0.75em"} />
+							)}
+						</CardTileGem>
+					)}
 					{this.renderName()}
 					{this.renderCount()}
 				</Darkness>
