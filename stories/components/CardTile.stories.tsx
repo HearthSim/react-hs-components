@@ -44,3 +44,29 @@ stories.add("Classic", () => {
         </Container>
 	);
 });
+
+stories.add("Battlegrounds", () => {
+	return (
+		<Container>
+            <CardTile
+				id="EX1_506"
+				name="Murloc Tidehunter"
+				cost={2}
+				tier={select(
+					"Tier",
+					{
+						"1": 1,
+						"2": 2,
+						"3": 3,
+						"4": 4,
+						"5": 5,
+						"6": 6,
+					},
+					1
+				)}
+				battlegrounds
+				premium={boolean("Premium", false)}
+			/>
+        </Container>
+	);
+});
