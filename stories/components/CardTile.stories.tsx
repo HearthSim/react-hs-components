@@ -1,8 +1,7 @@
-
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import styled from "styled-components";
-import {CardTile} from "../../src";
+import { CardTile } from "../../src";
 
 // tslint:disable-next-line
 const { boolean, select } = require("@storybook/addon-knobs");
@@ -18,7 +17,7 @@ const Container = styled.div`
 stories.add("Classic", () => {
 	return (
 		<Container>
-            <CardTile
+			<CardTile
 				id="EX1_506"
 				name="Murloc Tidehunter"
 				cost={select(
@@ -38,17 +37,17 @@ stories.add("Classic", () => {
 						"12": 12,
 						"25": 25,
 					},
-					1
+					1,
 				)}
 			/>
-        </Container>
+		</Container>
 	);
 });
 
 stories.add("Battlegrounds", () => {
 	return (
 		<Container>
-            <CardTile
+			<CardTile
 				id="EX1_506"
 				name="Murloc Tidehunter"
 				cost={2}
@@ -62,11 +61,11 @@ stories.add("Battlegrounds", () => {
 						"5": 5,
 						"6": 6,
 					},
-					1
+					1,
 				)}
 				battlegrounds
 				premium={boolean("Premium", false)}
 			/>
-        </Container>
+		</Container>
 	);
 });

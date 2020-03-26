@@ -20,7 +20,7 @@
 	"scripts": {
 		"dev": "rollup -c --watch",
 		"build": "rollup -c",
-		"format": "prettier --write \"{src/**/*.ts{,x},*.js}\"",
+		"format": "prettier --write \"{src/**/*.ts{,x},stories/**/*.ts{,x},*.js}\"",
 		"lint": "prettier --list-different \"{src/**/*.ts{,x},*.js}\"",
 		"storybook": "start-storybook -p 9001 -c .storybook",
 		"build-storybook": "build-storybook -c .storybook -o .out",
@@ -42,7 +42,7 @@
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-loader": "^8.0.6",
 		"jest": "^25.2.3",
-		"prettier": "^1.7.0",
+		"prettier": "^2.0.2",
 		"react": "^16.0.0",
 		"react-dom": "16.0.0",
 		"react-test-renderer": "^16.4.1",

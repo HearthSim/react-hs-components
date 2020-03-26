@@ -209,7 +209,7 @@ export default class CardTile extends React.Component<
 			prevProps.number !== this.props.number ||
 			prevProps.disabled !== this.props.disabled
 		) {
-			this.setState(state => ({ flashIndex: (state.flashIndex + 1) % 100 }));
+			this.setState((state) => ({ flashIndex: (state.flashIndex + 1) % 100 }));
 		}
 	}
 
@@ -253,9 +253,7 @@ export default class CardTile extends React.Component<
 				<Darkness disabled={this.props.disabled}>
 					{!!this.props.battlegrounds && !!this.props.tier ? (
 						<CardTileTier
-							src={`https://art.hearthstonejson.com/v1/tiers/${
-								this.props.tier
-							}.png`}
+							src={`https://art.hearthstonejson.com/v1/tiers/${this.props.tier}.png`}
 						/>
 					) : (
 						<CardTileGem

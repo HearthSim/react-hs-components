@@ -52,10 +52,9 @@ export default class Card extends React.Component<CardProps, CardState> {
 	}
 
 	render(): JSX.Element | any | false {
-		const artUrl = `https://art.hearthstonejson.com/v1/render/latest/${this
-			.props.locale || "enUS"}/${this.props.resolution || 256}x/${
-			this.props.id
-		}.png`;
+		const artUrl = `https://art.hearthstonejson.com/v1/render/latest/${
+			this.props.locale || "enUS"
+		}/${this.props.resolution || 256}x/${this.props.id}.png`;
 		if (!this.props.placeholder) {
 			return (
 				<img
