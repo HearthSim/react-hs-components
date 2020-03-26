@@ -19,6 +19,7 @@ export default {
 	plugins: [
 		typescript({
 			typescript: require("typescript"),
+			exclude: ["*.d.ts", "**/*.d.ts", "stories/**/*.tsx"]
 		}),
 	],
 };
