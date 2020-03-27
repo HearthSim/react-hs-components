@@ -26,6 +26,8 @@ export interface CardProps {
 	resolution?: 256 | 512;
 	className?: string;
 	placeholder?: string;
+	battlegrounds?: boolean;
+	triple?: boolean;
 	style?: React.CSSProperties;
 }
 
@@ -52,9 +54,11 @@ export default class Card extends React.Component<CardProps, CardState> {
 	}
 
 	render(): JSX.Element | any | false {
-		const artUrl = `https://art.hearthstonejson.com/v1/render/latest/${
+		const prefix = this.props.battlegrounds ? "bgs" : "render";
+		const cardId = this.props.id + (this.props.triple ? "_triple" : "");
+		const artUrl = `https://art.hearthstonejson.com/v1/${prefix}/latest/${
 			this.props.locale || "enUS"
-		}/${this.props.resolution || 256}x/${this.props.id}.png`;
+		}/${this.props.resolution || 256}x/${cardId}.png`;
 		if (!this.props.placeholder) {
 			return (
 				<img
