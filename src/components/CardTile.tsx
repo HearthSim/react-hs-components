@@ -17,6 +17,7 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	battlegrounds?: boolean;
 	tier?: number;
 	premium?: boolean;
+	hideStats?: boolean;
 }
 
 const CardTileWrapper = (styled.div as any)`
@@ -259,11 +260,11 @@ export default class CardTile extends React.Component<
 						<CardTileGem
 							rarity={this.props.showRarity ? this.props.rarity : undefined}
 						>
-							{this.props.cost !== null ? (
+							{this.props.cost !== null && !this.props.hideStats ? (
 								this.props.cost
-							) : (
+							) : !this.props.hideStats ? (
 								<SkeletonLine width={"0.75em"} />
-							)}
+							) : null}
 						</CardTileGem>
 					)}
 					{this.renderName()}
