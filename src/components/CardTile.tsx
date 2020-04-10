@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { injectGlobal } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	id: string | null;
@@ -20,7 +20,9 @@ export interface CardTileProps extends React.ClassAttributes<CardTile> {
 	hideStats?: boolean;
 }
 
-const CardTileWrapper = (styled.div as any)`
+const CardTileWrapper = styled.div<
+	Pick<CardTileProps, "fontFamily" | "fontWeight">
+>`
 	display: flex;
 	overflow: hidden;
 	position: relative;
@@ -28,45 +30,39 @@ const CardTileWrapper = (styled.div as any)`
 	background-color: gray;
 	border: solid 1px black;
 	vertical-align: middle;
-	font-family: ${(props: any) =>
+	font-family: ${(props) =>
 		props.fontFamily ? props.fontFamily : "sans-serif"};
-	font-weight: ${(props: any) => (props.fontWeight ? props.fontWeight : "bold")};
+	font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "bold")};
 `;
 
-const Darkness = (styled.div as any)`
+const Darkness = styled.div<Pick<CardTileProps, "disabled">>`
 	display: inherit;
 	width: 100%;
-	filter: brightness(${(props: any) => (props.disabled ? 50 : 100)}%);
+	filter: brightness(${(props) => (props.disabled ? 50 : 100)}%);
 `;
 
-const CardTileWrapperLink = CardTileWrapper.withComponent("a").extend`
-
-`;
-
-const CardTileTextElement = (styled.div as any)`
+const CardTileTextElement = styled.div`
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 		1px 1px 0 #000;
 `;
 
 // for some reason styled-components.keyframes breaks the export
-injectGlobal`
-	@keyframes react-hs-components-fade {
-		0% {
-			opacity: 0;
-		}
+const flash = keyframes`
+	0% {
+		opacity: 0;
+	}
 
-		50% {
-			opacity: 1;
-		}
+	50% {
+		opacity: 1;
+	}
 
-		100% {
-			opacity: 0;
-		}
+	100% {
+		opacity: 0;
 	}
 `;
 
-const FlashOverlay = (styled.div as any)`
+const FlashOverlay = styled.div`
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -75,13 +71,13 @@ const FlashOverlay = (styled.div as any)`
 	background-color: rgba(255, 254, 179, 0.4);
 	opacity: 0;
 	transition: opacity;
-	animation: react-hs-components-fade 1s linear;
+	animation: ${flash} 1s linear;
 
 	z-index: 1;
 	overflow: hidden;
 `;
 
-const CardTileNameBase = CardTileTextElement.extend`
+const CardTileNameBase = styled(CardTileTextElement)`
 	// text
 	font-size: 0.8em;
 	text-align: left;
@@ -109,7 +105,10 @@ const CardTileNameBase = CardTileTextElement.extend`
 	}
 `;
 
-const CardTileName = CardTileNameBase.extend`
+const CardTileName = styled(CardTileNameBase)<{
+	cardId: string | null;
+	premium?: boolean | null;
+}>`
 	background-image: linear-gradient(
 			65deg,
 			#313109,
@@ -117,16 +116,15 @@ const CardTileName = CardTileNameBase.extend`
 			rgba(49, 49, 49, 0) calc(100% - 26px),
 			rgba(49, 49, 49, 0)
 		),
-		${(props: React.HTMLProps<HTMLDivElement> & { cardId: string | null }) =>
+		${(props) =>
 			props.cardId !== null
 				? `url("https://art.hearthstonejson.com/v1/tiles/${props.cardId}.png")`
 				: "linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3))"};
 
-	${(props: React.HTMLProps<HTMLDivElement> & { premium?: boolean | null }) =>
-		!!props.premium ? "color: gold" : ""};
+	${(props) => (!!props.premium ? "color: gold" : "")};
 `;
 
-const CardTileGem = CardTileTextElement.extend`
+const CardTileGem = styled(CardTileTextElement)`
 	font-size: 1.3em;
 	flex: 0 0 auto;
 	height: 34px;
@@ -163,7 +161,7 @@ const CardTileTier = styled.img`
 	border-right: solid 1px black;
 `;
 
-const CardTileCounter = (CardTileTextElement as any).extend`
+const CardTileCounter = styled(CardTileTextElement)`
 	flex: 0 0 auto;
 	font-size: 1.2em;
 	color: gold;
@@ -175,7 +173,7 @@ const CardTileCounter = (CardTileTextElement as any).extend`
 	border-left: solid 1px black;
 `;
 
-const SkeletonLine = (styled.span as any)`
+const SkeletonLine = styled.span`
 	display: inline-block;
 	background-color: rgba(255, 255, 255, 0.3);
 	border-radius: 1em;
@@ -240,10 +238,9 @@ export default class CardTile extends React.Component<
 	}
 
 	render() {
-		const Wrapper = this.props.href ? CardTileWrapperLink : CardTileWrapper;
-
 		return (
-			<Wrapper
+			<CardTileWrapper
+				as={this.props.href ? "a" : undefined}
 				href={this.props.href ? "" : undefined}
 				fontFamily={this.props.fontFamily}
 				fontWeight={this.props.fontWeight}
@@ -270,7 +267,7 @@ export default class CardTile extends React.Component<
 					{this.renderName()}
 					{this.renderCount()}
 				</Darkness>
-			</Wrapper>
+			</CardTileWrapper>
 		);
 	}
 }
