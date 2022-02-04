@@ -3,6 +3,7 @@ import React from "react";
 export interface SkeletonImageProps
 	extends React.ClassAttributes<SkeletonImage> {
 	src: string;
+	notFoundSrc: string;
 	placeholderSrc: string;
 	alt?: string;
 	className?: string;
@@ -13,6 +14,7 @@ export interface SkeletonImageProps
 
 export interface SkeletonImageState {
 	loaded?: boolean;
+	loadError?: boolean;
 }
 
 export default class SkeletonImage extends React.Component<
@@ -29,18 +31,26 @@ export default class SkeletonImage extends React.Component<
 
 		this.state = {
 			loaded: inCache,
+			loadError: false,
 		};
 	}
 
 	render(): JSX.Element | any | false {
 		return (
 			<img
-				src={this.state.loaded ? this.props.src : this.props.placeholderSrc}
+				src={
+					this.state.loadError
+						? this.props.notFoundSrc
+						: this.state.loaded
+						? this.props.src
+						: this.props.placeholderSrc
+				}
 				alt={this.props.alt}
 				height={this.props.height}
 				width={this.props.width}
 				className={this.props.className}
 				style={this.props.style}
+				onError={() => this.setState({ loadError: true })}
 				onLoad={
 					!this.state.loaded ? () => this.setState({ loaded: true }) : undefined
 				}

@@ -25,6 +25,7 @@ export interface CardProps {
 	locale?: HearthstoneLocale;
 	resolution?: 256 | 512;
 	className?: string;
+	notFound?: string;
 	placeholder?: string;
 	battlegrounds?: boolean;
 	triple?: boolean;
@@ -72,6 +73,7 @@ export default class Card extends React.Component<CardProps, CardState> {
 		return (
 			<SkeletonImage
 				src={artUrl}
+				notFoundSrc={this.props.notFound || this.props.placeholder}
 				placeholderSrc={this.props.placeholder}
 				style={this.props.style}
 				className={this.props.className}
