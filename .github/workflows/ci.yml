@@ -1,0 +1,91 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 10
+          cache: yarn
+
+      - name: Install
+        run: yarn --pure-lockfile
+
+      - name: Lint
+        run: yarn lint
+  
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 10
+          cache: yarn
+
+      - name: Install
+        run: yarn --pure-lockfile
+
+      - name: Build
+        run: yarn build
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 10
+          cache: yarn
+
+      - name: Install
+        run: yarn --pure-lockfile
+
+      - name: Test
+        run: yarn run jest
+
+  release:
+    name: Release
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 10
+          cache: yarn
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install
+        run: |
+          pip install --user awscli
+          yarn --pure-lockfile
+      - name: Build package
+        run: |
+          yarn run build
+          yarn pack
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::746159132190:role/github-react_hs_components-deploy-role
+          aws-region: us-east-1
+      - name: Upload to libs.hearthsim.net
+        run: |
+          PACKAGE=`find . -maxdepth 1 -name "*.tgz"`
+          aws s3 cp $PACKAGE s3://libs.hearthsim.net/
