@@ -106,23 +106,20 @@ const CardTileNameBase = styled(CardTileTextElement)`
 `;
 
 const CardTileName = styled(CardTileNameBase)<{
-	cardId: string | null;
 	premium?: boolean | null;
 }>`
-	background-image: linear-gradient(
-			65deg,
-			#313109,
-			#313131 calc(100% - 96px),
-			rgba(49, 49, 49, 0) calc(100% - 26px),
-			rgba(49, 49, 49, 0)
-		),
-		${(props) =>
-			props.cardId !== null
-				? `url("https://art.hearthstonejson.com/v1/tiles/${props.cardId}.png")`
-				: "linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3))"};
-
 	${(props) => (!!props.premium ? "color: gold" : "")};
 `;
+
+const getTileBackgroundImage = (cardId: string | null): string => {
+	const fade =
+		"linear-gradient(65deg, #313109, #313131 calc(100% - 96px), rgba(49, 49, 49, 0) calc(100% - 26px), rgba(49, 49, 49, 0))";
+	const tile =
+		cardId !== null
+			? `url("https://art.hearthstonejson.com/v1/tiles/${cardId}.png")`
+			: "linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3))";
+	return `${fade}, ${tile}`;
+};
 
 const CardTileGem = styled(CardTileTextElement)`
 	font-size: 1.3em;
@@ -214,7 +211,10 @@ export default class CardTile extends React.Component<
 
 	renderName() {
 		return (
-			<CardTileName cardId={this.props.id} premium={!!this.props.premium}>
+			<CardTileName
+				premium={!!this.props.premium}
+				style={{ backgroundImage: getTileBackgroundImage(this.props.id) }}
+			>
 				{this.props.icon ? <img src={this.props.icon} /> : null}
 				{this.props.name !== null ? (
 					this.props.name
