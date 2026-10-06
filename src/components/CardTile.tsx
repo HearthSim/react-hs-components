@@ -175,8 +175,6 @@ const SkeletonLine = styled.span`
 	background-color: rgba(255, 255, 255, 0.3);
 	border-radius: 1em;
 	height: 0.75em;
-	width: ${(props: React.HTMLProps<HTMLSpanElement> & { width?: string }) =>
-		props.width || 0};
 `;
 
 export interface CardTileState {
@@ -219,7 +217,7 @@ export default class CardTile extends React.Component<
 				{this.props.name !== null ? (
 					this.props.name
 				) : (
-					<SkeletonLine width={this.state.skeletonNameWidth} />
+					<SkeletonLine style={{ width: this.state.skeletonNameWidth }} />
 				)}
 			</CardTileName>
 		);
@@ -260,7 +258,7 @@ export default class CardTile extends React.Component<
 							{this.props.cost !== null && !this.props.hideStats ? (
 								this.props.cost
 							) : !this.props.hideStats ? (
-								<SkeletonLine width={"0.75em"} />
+								<SkeletonLine style={{ width: "0.75em" }} />
 							) : null}
 						</CardTileGem>
 					)}
